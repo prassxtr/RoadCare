@@ -8,18 +8,52 @@ use Illuminate\Support\Facades\Storage;
 
 class LaporanController extends Controller
 {
-    // Home Page
-    public function home()
+    // Halaman Peta Interaktif (Mengambil data koordinat asli dari database)
+    public function map()
     {
-        $laporans = Laporan::latest()->take(10)->get();
-        return view('pages.home', compact('laporans'));
+        // Ambil semua laporan yang memiliki data koordinat latitude & longitude
+        $laporans = Laporan::whereNotNull('latitude')
+                           ->whereNotNull('longitude')
+                           ->get();
+
+        // Hitung statistik kilat untuk mengisi Quick Stats di template map kamu
+        $totalLaporan = Laporan::count();
+        $totalSelesai = Laporan::where('status', 'selesai')->count();
+
+        // DIPERBAIKI: Menyesuaikan dengan path aslimu agar tidak error 'view not found'
+        return view('pages.map', compact('laporans', 'totalLaporan', 'totalSelesai'));
     }
 
-    // List Semua Laporan
-    public function index()
+    // Home Page / Beranda
+    public function home()
+    {
+        // Menggunakan nama variabel khusus agar tidak bentrok dengan halaman 'Laporan Saya'
+        $laporansBeranda = Laporan::latest()->take(10)->get();
+        
+        // Menghitung statistik khusus yang akan dibaca oleh Berandamu
+        $totalBeranda = Laporan::count();
+        $prosesBeranda = Laporan::where('status', 'proses')->count();
+        $selesaiBeranda = Laporan::where('status', 'selesai')->count();
+
+        return view('pages.home', compact('laporansBeranda', 'totalBeranda', 'prosesBeranda', 'selesaiBeranda'));
+    }
+
+    // List Semua Laporan (Halaman Laporan Saya)
+     public function index()
     {
         $laporans = Laporan::latest()->paginate(10);
-        return view('pages.laporan.index', compact('laporans'));
+
+    // Pastikan huruf 'K' dan 'S' menggunakan huruf KAPITAL (CamelCase)
+        $totalKhususSaya = Laporan::count();
+        $prosesKhususSaya = Laporan::where('status', 'proses')->count();
+        $selesaiKhususSaya = Laporan::where('status', 'selesai')->count();
+
+        return view('pages.laporan.index', compact(
+            'laporans', 
+            'totalKhususSaya', 
+            'prosesKhususSaya', 
+            'selesaiKhususSaya'
+        ));
     }
 
     // Form Create Laporan (Multi-step)
@@ -28,7 +62,7 @@ class LaporanController extends Controller
         return view('pages.laporan.create');
     }
 
-    // Store Laporan
+    // Store Laporan (Menyimpan laporan baru ke database)
     public function store(Request $request)
     {
         // Validasi
@@ -81,7 +115,7 @@ class LaporanController extends Controller
             'user_id' => auth()->id() ?? 1, // Default user_id 1 jika belum login
         ]);
 
-        // Redirect dengan success message
+        // Redirect dengan success message ke halaman beranda/home
         return redirect()->route('home')->with('success', 'Laporan berhasil dikirim! Nomor referensi: #RD-' . $laporan->id);
     }
 

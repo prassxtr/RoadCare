@@ -3,13 +3,11 @@
 use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
-// Home
-Route::get('/', [LaporanController::class, 'index'])->name('home');
+// Home (DIPERBAIKI: diarahkan ke fungsi home() agar Beranda kembali seperti awal)
+Route::get('/', [LaporanController::class, 'home'])->name('home');
 
 // Map
-Route::get('/map', function () {
-    return view('pages.map');
-})->name('map');
+Route::get('/map', [LaporanController::class, 'map'])->name('map');
 
 // Profil
 Route::get('/profil', function () {
@@ -18,7 +16,7 @@ Route::get('/profil', function () {
 
 // Laporan Routes
 Route::prefix('laporan')->name('laporan.')->group(function () {
-    // List semua laporan
+    // List semua laporan (Tetap ke index untuk halaman Laporan Saya yang baru)
     Route::get('/', [LaporanController::class, 'index'])->name('index');
 
     // Show detail laporan
