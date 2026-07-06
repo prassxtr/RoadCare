@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
@@ -78,7 +79,7 @@ class LaporanController extends Controller
             'alamat' => $request->address,
             'urgensi' => $request->urgency,
             'status' => 'pending',
-            'user_id' => auth()->id() ?? 1,
+            'user_id' => Auth::id() ?? 1,
         ]);
 
         return redirect()->route('home')->with('success', 'Laporan berhasil dikirim!');
