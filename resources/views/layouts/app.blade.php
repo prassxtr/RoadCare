@@ -53,11 +53,20 @@
                     </svg>
                 </button>
                 
-                <div class="flex items-center gap-2 border-l pl-4 border-gray-100">
-                    <div class="w-8 h-8 bg-gray-200 text-gray-700 rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
-                        P
+                <div class="flex items-center gap-4 border-l pl-4 border-gray-100">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-gray-200 text-gray-700 rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
+                            P
+                        </div>
+                        <span class="hidden sm:inline text-xs font-bold text-gray-700">Prass</span>
                     </div>
-                    <span class="hidden sm:inline text-xs font-bold text-gray-700">Prass</span>
+
+                    <form action="{{ route('logout') }}" method="POST" class="hidden sm:inline" onsubmit="return confirm('Apakah Anda yakin ingin keluar?')">
+                        @csrf
+                        <button type="submit" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold px-3 py-1.5 rounded-lg text-xs transition border-0 cursor-pointer shadow-sm">
+                            Keluar
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -67,6 +76,7 @@
     <main class="max-w-7xl mx-auto">
         @yield('content')
     </main>
+    
 
     <div class="fixed bottom-0 left-0 right-0 z-[5000] bg-white/95 backdrop-blur-md border-t border-gray-100 md:hidden px-2 py-2 shadow-[0_-4px_25px_rgba(0,0,0,0.05)]">
         <div class="flex justify-around items-center relative">
