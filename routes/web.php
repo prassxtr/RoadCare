@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\LaporanController; // Controller laporan milik User utama
-use App\Http\Controllers\AdminLaporanController; // ✔️ TAMBAHKAN INI UNTUK ADMIN
-use App\Http\Controllers\DashboardController; // Controller admin
-use App\Http\Controllers\UserController; // Controller admin
-use App\Http\Controllers\PengaturanController; // Controller admin
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\AdminLaporanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PengaturanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 // 1. HALAMAN AUTENTIKASI (LOGIN / LOGOUT)
 // ==========================================
 Route::middleware('guest')->group(function () {
-    // Halaman Login Utama (Muncul Paling Awal)
+    // Halaman Login Utama
     Route::get('/', function () {
         return view('pages.login');
     })->name('login');
@@ -35,6 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // 2. ROUTE UNTUK USER BIASA (Wajib Login)
 // ==========================================
 Route::middleware('auth')->group(function () {
+    
     // Beranda User
     Route::get('/home', [LaporanController::class, 'home'])->name('home');
 
@@ -46,14 +47,22 @@ Route::middleware('auth')->group(function () {
         return view('pages.profil');
     })->name('profil');
 
-    // Manajemen Laporan dari Sisi User (Masyarakat)
+    // ==========================================
+    // Manajemen Laporan User (Masyarakat)
+    // ==========================================
     Route::prefix('laporan')->name('laporan.')->group(function () {
+        
+        // List semua laporan user
         Route::get('/', [LaporanController::class, 'index'])->name('index');
+        
+        // ✅ FORM TAMBAH LAPORAN (HARUS SEBELUM /{id})
+        Route::get('/create', [LaporanController::class, 'create'])->name('create');
+        
+        // ✅ PROSES SIMPAN LAPORAN
+        Route::post('/', [LaporanController::class, 'store'])->name('store');
+        
+        // ✅ DETAIL LAPORAN (PALING BAWAH)
         Route::get('/{id}', [LaporanController::class, 'show'])->name('show');
-        Route::prefix('create')->group(function () {
-            Route::get('/', [LaporanController::class, 'create'])->name('create');
-            Route::post('/store', [LaporanController::class, 'store'])->name('store');
-        });
     });
 });
 
@@ -63,19 +72,21 @@ Route::middleware('auth')->group(function () {
 // ==========================================
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     
-    // Dashboard Admin (/admin/dashboard)
+    // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Peta/Map Khusus Admin (/admin/map)
-    Route::get('/map', [DashboardController::class, 'map'])->name('map'); 
+    // Peta/Map Khusus Admin
+    Route::get('/map', [DashboardController::class, 'map'])->name('map');
 
-    // User Management oleh Admin (/admin/user)
+    // User Management oleh Admin
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
 
-    // Pengaturan oleh Admin (/admin/pengaturan)
+    // Pengaturan oleh Admin
     Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
     Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
 
-    // ✔️ PERBAIKAN: Sekarang rute laporan admin memanggil AdminLaporanController
-    Route::resource('laporan', AdminLaporanController::class); 
+    // ==========================================
+    // Manajemen Laporan Admin (CRUD Lengkap)
+    // ==========================================
+    Route::resource('laporan', AdminLaporanController::class);
 });
