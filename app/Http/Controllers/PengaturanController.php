@@ -8,12 +8,12 @@ class PengaturanController extends Controller
 {
     public function index()
     {
-        return view('pengaturan.index');
+        return view('Admin.pengaturan.index');  // ✅ Pakai Admin.pengaturan.index
     }
 
     public function update(Request $request)
     {
-        return redirect()->route('pengaturan.index')
-            ->with('success', 'Pengaturan berhasil disimpan.');
+        // Tambahkan logika update pengaturan di sini
+        return back()->with('success', 'Pengaturan berhasil disimpan!');
     }
 }

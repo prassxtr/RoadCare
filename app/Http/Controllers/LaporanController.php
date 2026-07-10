@@ -33,12 +33,26 @@ class LaporanController extends Controller
     // List Halaman Laporan Saya (User)
     public function index()
     {
-        $laporans = Laporan::latest()->paginate(10);
-        $totalKhususSaya = Laporan::count();
-        $prosesKhususSaya = Laporan::where('status', 'proses')->count();
-        $selesaiKhususSaya = Laporan::where('status', 'selesai')->count();
+        // ✅ FIX: Hanya tampilkan laporan milik user yang login
+        $laporans = Laporan::where('user_id', Auth::id())
+            ->latest()
+            ->paginate(10);
+        
+        // ✅ FIX: Hitung statistik khusus untuk user ini
+        $totalKhususSaya = Laporan::where('user_id', Auth::id())->count();
+        $prosesKhususSaya = Laporan::where('user_id', Auth::id())
+            ->where('status', 'proses')
+            ->count();
+        $selesaiKhususSaya = Laporan::where('user_id', Auth::id())
+            ->where('status', 'selesai')
+            ->count();
 
-        return view('pages.laporan.index', compact('laporans', 'totalKhususSaya', 'prosesKhususSaya', 'selesaiKhususSaya'));
+        return view('pages.laporan.index', compact(
+            'laporans', 
+            'totalKhususSaya', 
+            'prosesKhususSaya', 
+            'selesaiKhususSaya'
+        ));
     }
 
     // Form Buat Laporan User
@@ -66,6 +80,11 @@ class LaporanController extends Controller
         }
         $imageData = base64_decode($imageData);
 
+        // ✅ FIX: Validasi base64 decode
+        if ($imageData === false) {
+            return back()->withErrors(['photo_data' => 'Format gambar tidak valid atau rusak.'])->withInput();
+        }
+
         $fileName = 'laporan_' . time() . '_' . uniqid() . '.jpg';
         $filePath = 'laporan/' . $fileName;
         Storage::disk('public')->put($filePath, $imageData);
@@ -79,7 +98,7 @@ class LaporanController extends Controller
             'alamat' => $request->address,
             'urgensi' => $request->urgency,
             'status' => 'pending',
-            'user_id' => Auth::id() ?? 1,
+            'user_id' => Auth::id(), // ✅ FIX: Hapus ?? 1
         ]);
 
         return redirect()->route('home')->with('success', 'Laporan berhasil dikirim!');
@@ -88,7 +107,11 @@ class LaporanController extends Controller
     // Detail Laporan User
     public function show($id)
     {
-        $laporan = Laporan::findOrFail($id);
+        // ✅ FIX: Pastikan user hanya bisa melihat laporan miliknya
+        $laporan = Laporan::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
         return view('pages.laporan.show', compact('laporan'));
     }
 }

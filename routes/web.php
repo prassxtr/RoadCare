@@ -70,7 +70,8 @@ Route::middleware('auth')->group(function () {
 // ==========================================
 // 3. ROUTE UNTUK ADMIN (Wajib Login + Prefix: /admin)
 // ==========================================
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+// ✅ FIX 1: Tambahkan middleware 'admin' agar user biasa tidak bisa masuk /admin
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -88,5 +89,11 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // ==========================================
     // Manajemen Laporan Admin (CRUD Lengkap)
     // ==========================================
-    Route::resource('laporan', AdminLaporanController::class);
+    // ✅ FIX 2: Gunakan ->only() agar tidak error mencari method create/edit/store yang tidak ada
+    Route::resource('laporan', AdminLaporanController::class)->only(['index', 'show', 'destroy']);
+    
+    // ✅ FIX 3: Tambahkan route custom untuk updateStatus dan download
+    // (Route::resource TIDAK otomatis membuat route ini!)
+    Route::put('/laporan/{id}/status', [AdminLaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+    Route::get('/laporan/{id}/download', [AdminLaporanController::class, 'download'])->name('laporan.download');
 });
