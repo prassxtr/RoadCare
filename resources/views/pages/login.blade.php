@@ -26,6 +26,12 @@
                 </ul>
             </div>
         @endif
+
+        @if (session('success'))
+            <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-600 text-sm rounded-lg">
+                {{ session('success') }}
+            </div>
+        @endif
         
         <form action="{{ route('login.post') }}" method="POST" class="space-y-4">
             @csrf 
@@ -51,6 +57,15 @@
                 Masuk ke Aplikasi
             </button>
         </form>
+
+        <!-- ✅ TAMBAHKAN KODE INI (Link ke Register) -->
+        <p class="text-center mt-6 text-sm text-gray-500">
+            Belum punya akun? 
+            <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-700 font-semibold hover:underline">
+                Daftar di sini
+            </a>
+        </p>
+
     </div>
 
 </body>

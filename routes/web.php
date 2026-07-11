@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // ==========================================
-// 1. HALAMAN AUTENTIKASI (LOGIN / LOGOUT)
+// 1. HALAMAN AUTENTIKASI (LOGIN / REGISTER / LOGOUT)
 // ==========================================
 Route::middleware('guest')->group(function () {
     // Halaman Login Utama
@@ -25,6 +25,14 @@ Route::middleware('guest')->group(function () {
 
     // Proses Submit Form Login
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+    // ✅ HALAMAN REGISTER
+    Route::get('/register', function () {
+        return view('pages.register');
+    })->name('register');
+
+    // ✅ PROSES SUBMIT FORM REGISTER
+    Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 });
 
 // Proses Logout
@@ -70,7 +78,6 @@ Route::middleware('auth')->group(function () {
 // ==========================================
 // 3. ROUTE UNTUK ADMIN (Wajib Login + Prefix: /admin)
 // ==========================================
-// ✅ FIX 1: Tambahkan middleware 'admin' agar user biasa tidak bisa masuk /admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard Admin
@@ -89,11 +96,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // ==========================================
     // Manajemen Laporan Admin (CRUD Lengkap)
     // ==========================================
-    // ✅ FIX 2: Gunakan ->only() agar tidak error mencari method create/edit/store yang tidak ada
     Route::resource('laporan', AdminLaporanController::class)->only(['index', 'show', 'destroy']);
 
-    // ✅ FIX 3: Tambahkan route custom untuk updateStatus dan download
-    // (Route::resource TIDAK otomatis membuat route ini!)
     Route::put('/laporan/{id}/status', [AdminLaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
     Route::get('/laporan/{id}/download', [AdminLaporanController::class, 'download'])->name('laporan.download');
 });
