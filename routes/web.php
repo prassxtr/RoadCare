@@ -35,7 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // 2. ROUTE UNTUK USER BIASA (Wajib Login)
 // ==========================================
 Route::middleware('auth')->group(function () {
-    
+
     // Beranda User
     Route::get('/home', [LaporanController::class, 'home'])->name('home');
 
@@ -51,16 +51,16 @@ Route::middleware('auth')->group(function () {
     // Manajemen Laporan User (Masyarakat)
     // ==========================================
     Route::prefix('laporan')->name('laporan.')->group(function () {
-        
+
         // List semua laporan user
         Route::get('/', [LaporanController::class, 'index'])->name('index');
-        
+
         // ✅ FORM TAMBAH LAPORAN (HARUS SEBELUM /{id})
         Route::get('/create', [LaporanController::class, 'create'])->name('create');
-        
+
         // ✅ PROSES SIMPAN LAPORAN
         Route::post('/', [LaporanController::class, 'store'])->name('store');
-        
+
         // ✅ DETAIL LAPORAN (PALING BAWAH)
         Route::get('/{id}', [LaporanController::class, 'show'])->name('show');
     });
@@ -76,7 +76,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 =======
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 >>>>>>> origin/UI-Admin-dan-pengguna
-    
+
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -96,7 +96,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 <<<<<<< HEAD
     // ✅ FIX 2: Gunakan ->only() agar tidak error mencari method create/edit/store yang tidak ada
     Route::resource('laporan', AdminLaporanController::class)->only(['index', 'show', 'destroy']);
-    
+
     // ✅ FIX 3: Tambahkan route custom untuk updateStatus dan download
     // (Route::resource TIDAK otomatis membuat route ini!)
     Route::put('/laporan/{id}/status', [AdminLaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
