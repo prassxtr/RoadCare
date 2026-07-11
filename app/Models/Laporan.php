@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Laporan extends Model
 {
-    protected $table = 'laporans'; // atau 'laporan' sesuai nama tabel
-
     protected $fillable = [
         'kategori',
         'deskripsi',
@@ -15,13 +13,22 @@ class Laporan extends Model
         'latitude',
         'longitude',
         'alamat',
+        'urgensi',
         'status',
         'user_id',
+        'admin_id',
+        'catatan_admin',
     ];
 
-    // Relasi ke User (opsional)
+    // Relasi ke user pelapor
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Relasi ke admin yang menangani
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'admin_id');
     }
 }
