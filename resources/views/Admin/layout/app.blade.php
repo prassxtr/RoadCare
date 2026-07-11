@@ -24,7 +24,11 @@
     @include('Admin.layout.header')
 
     {{-- Main Wrapper --}}
+<<<<<<< HEAD
     <div class="flex flex-1 relative"> 
+=======
+    <div class="flex flex-1 pt-16 relative"> 
+>>>>>>> origin/UI-Admin-dan-pengguna
 
         {{-- Sidebar Admin --}}
         <aside class="w-64 fixed inset-y-0 left-0 pt-16 bg-white border-r border-slate-200 hidden md:block z-20">
@@ -35,18 +39,30 @@
         <div class="flex flex-col flex-1 md:pl-64 min-h-screen">
             
             <main class="flex-1 p-6 lg:p-8 bg-slate-50">
+<<<<<<< HEAD
+=======
+                {{-- Breadcrumbs / Page Title Slot --}}
+>>>>>>> origin/UI-Admin-dan-pengguna
                 @if(View::hasSection('page-header'))
                 <div class="mb-6">
                     @yield('page-header')
                 </div>
                 @endif
 
+<<<<<<< HEAD
+=======
+                {{-- PERBAIKAN: Menghapus wrapper card putih bungkusan luar agar tidak double-box dengan tabel laporan/user --}}
+>>>>>>> origin/UI-Admin-dan-pengguna
                 @yield('content')
             </main>
 
             {{-- Footer Admin --}}
             <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center text-sm text-slate-500">
+<<<<<<< HEAD
                 &copy; {{ date('Y') }} RoadCare Admin. All rights reserved.
+=======
+                @include('Admin.layout.footer')
+>>>>>>> origin/UI-Admin-dan-pengguna
             </footer>
 
         </div>

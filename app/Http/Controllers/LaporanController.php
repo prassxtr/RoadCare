@@ -11,6 +11,7 @@ class LaporanController extends Controller
 {
     // Halaman Peta Interaktif User
     public function map()
+<<<<<<< HEAD
     {
         $laporans = Laporan::whereNotNull('latitude')->whereNotNull('longitude')->get();
         $totalLaporan = Laporan::count();
@@ -53,6 +54,36 @@ class LaporanController extends Controller
             'prosesKhususSaya', 
             'selesaiKhususSaya'
         ));
+=======
+    {
+        $laporans = Laporan::whereNotNull('latitude')->whereNotNull('longitude')->get();
+        $totalLaporan = Laporan::count();
+        $totalSelesai = Laporan::where('status', 'selesai')->count();
+
+        return view('pages.map', compact('laporans', 'totalLaporan', 'totalSelesai'));
+    }
+
+    // Beranda User
+    public function home()
+    {
+        $laporansBeranda = Laporan::latest()->take(10)->get();
+        $totalBeranda = Laporan::count();
+        $prosesBeranda = Laporan::where('status', 'proses')->count();
+        $selesaiBeranda = Laporan::where('status', 'selesai')->count();
+
+        return view('pages.home', compact('laporansBeranda', 'totalBeranda', 'prosesBeranda', 'selesaiBeranda'));
+    }
+
+    // List Halaman Laporan Saya (User)
+    public function index()
+    {
+        $laporans = Laporan::latest()->paginate(10);
+        $totalKhususSaya = Laporan::count();
+        $prosesKhususSaya = Laporan::where('status', 'proses')->count();
+        $selesaiKhususSaya = Laporan::where('status', 'selesai')->count();
+
+        return view('pages.laporan.index', compact('laporans', 'totalKhususSaya', 'prosesKhususSaya', 'selesaiKhususSaya'));
+>>>>>>> origin/UI-Admin-dan-pengguna
     }
 
     // Form Buat Laporan User
@@ -80,11 +111,14 @@ class LaporanController extends Controller
         }
         $imageData = base64_decode($imageData);
 
+<<<<<<< HEAD
         // ✅ FIX: Validasi base64 decode
         if ($imageData === false) {
             return back()->withErrors(['photo_data' => 'Format gambar tidak valid atau rusak.'])->withInput();
         }
 
+=======
+>>>>>>> origin/UI-Admin-dan-pengguna
         $fileName = 'laporan_' . time() . '_' . uniqid() . '.jpg';
         $filePath = 'laporan/' . $fileName;
         Storage::disk('public')->put($filePath, $imageData);
@@ -98,7 +132,11 @@ class LaporanController extends Controller
             'alamat' => $request->address,
             'urgensi' => $request->urgency,
             'status' => 'pending',
+<<<<<<< HEAD
             'user_id' => Auth::id(), // ✅ FIX: Hapus ?? 1
+=======
+            'user_id' => Auth::id() ?? 1,
+>>>>>>> origin/UI-Admin-dan-pengguna
         ]);
 
         return redirect()->route('home')->with('success', 'Laporan berhasil dikirim!');

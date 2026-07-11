@@ -70,8 +70,12 @@ Route::middleware('auth')->group(function () {
 // ==========================================
 // 3. ROUTE UNTUK ADMIN (Wajib Login + Prefix: /admin)
 // ==========================================
+<<<<<<< HEAD
 // ✅ FIX 1: Tambahkan middleware 'admin' agar user biasa tidak bisa masuk /admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+=======
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+>>>>>>> origin/UI-Admin-dan-pengguna
     
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -89,6 +93,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // ==========================================
     // Manajemen Laporan Admin (CRUD Lengkap)
     // ==========================================
+<<<<<<< HEAD
     // ✅ FIX 2: Gunakan ->only() agar tidak error mencari method create/edit/store yang tidak ada
     Route::resource('laporan', AdminLaporanController::class)->only(['index', 'show', 'destroy']);
     
@@ -96,4 +101,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // (Route::resource TIDAK otomatis membuat route ini!)
     Route::put('/laporan/{id}/status', [AdminLaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
     Route::get('/laporan/{id}/download', [AdminLaporanController::class, 'download'])->name('laporan.download');
+=======
+    Route::resource('laporan', AdminLaporanController::class);
+>>>>>>> origin/UI-Admin-dan-pengguna
 });
