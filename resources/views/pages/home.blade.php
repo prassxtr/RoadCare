@@ -101,8 +101,14 @@
                 <p class="text-sm mt-2">Jadilah yang pertama melaporkan kerusakan jalan!</p>
             </div>
             @endforelse
-        </div>
+            </div>
 
+            {{-- Pagination --}}
+            @if($laporansBeranda->hasPages())
+            <div class="mt-8 flex justify-center">
+                {{ $laporansBeranda->links() }}
+            </div>
+            @endif
         {{-- Kontribusi Banner --}}
         <div class="mt-6 sm:mt-10 bg-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-xl shadow-blue-600/15 flex flex-col justify-center">
             <h4 class="font-bold text-sm sm:text-base tracking-tight">Kontribusi Anda Pekan Ini</h4>
