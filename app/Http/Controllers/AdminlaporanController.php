@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Laporan;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,12 +16,11 @@ class AdminLaporanController extends Controller
 
         // Filter berdasarkan status
         if ($request->filled('status')) {
-            $query->status($request->status);
+            $query->where('status', $request->status);
         }
-
         // Filter berdasarkan urgensi
         if ($request->filled('urgensi')) {
-            $query->urgensi($request->urgensi);
+            $query->where('urgensi', $request->urgensi);
         }
 
         // Filter berdasarkan kategori
@@ -32,7 +30,10 @@ class AdminLaporanController extends Controller
 
         // Search keyword
         if ($request->filled('search')) {
-            $query->search($request->search);
+            $query->where(function($q) use ($request) {
+                $q->where('deskripsi', 'like', '%' . $request->search . '%')
+                  ->orWhere('alamat', 'like', '%' . $request->search . '%');
+            });
         }
 
         $laporans = $query->latest()->paginate(15)->withQueryString();
@@ -82,12 +83,16 @@ class AdminLaporanController extends Controller
     public function download($id)
     {
         $laporan = Laporan::findOrFail($id);
-        
-        if (!Storage::disk('public')->exists($laporan->foto)) {
+
+        if (!$laporan->foto || !Storage::disk('public')->exists($laporan->foto)) {
             return back()->withErrors(['error' => 'File foto tidak ditemukan.']);
         }
 
-        return Storage::disk('public')->download($laporan->foto);
+        // ✅ FIX: Gunakan response()->download() dengan path lengkap
+        $filePath = storage_path('app/public/' . $laporan->foto);
+        $fileName = basename($laporan->foto);
+
+        return response()->download($filePath, $fileName);
     }
 
     // Hapus laporan
@@ -104,26 +109,5 @@ class AdminLaporanController extends Controller
 
         return redirect()->route('admin.laporan.index')
             ->with('success', 'Laporan berhasil dihapus!');
-=======
-
-class AdminLaporanController extends Controller
-{
-    // Menampilkan halaman daftar semua laporan di panel admin
-    public function index()
-    {
-        $laporans = Laporan::latest()->get(); 
-        
-        $totalLaporan = Laporan::count();
-        $jalanRusak = Laporan::where('kategori', 'lubang')->orWhere('kategori', 'retak')->count();
-        $banjir = Laporan::where('kategori', 'banjir')->count();
-        $longsor = Laporan::where('kategori', 'lainnya')->count();
-
-        return view('Admin.laporan.index', compact('laporans', 'totalLaporan', 'jalanRusak', 'banjir', 'longsor'));
-    }
-
-    public function create()
-    {
-        return view('Admin.laporan.create');
->>>>>>> origin/UI-Admin-dan-pengguna
     }
 }
