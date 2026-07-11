@@ -3,121 +3,455 @@
 @section('title', 'Beranda - Road Care')
 
 @section('content')
-<div class="px-4 sm:px-5 pb-28 max-w-7xl mx-auto">
 
-    <div class="text-center mt-6 sm:mt-10">
-       <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight"> Halo, {{ Auth::user()->name }} 👋</h2>
-        <p class="text-xs sm:text-sm text-gray-500 mt-1.5">Pantau dan laporkan kondisi jalan di sekitarmu.</p>
+<div class="px-4 sm:px-6 pb-28 max-w-7xl mx-auto">
+
+
+<!-- ================= HERO FOTO JALAN ================= -->
+
+<div class="relative mt-6 overflow-hidden rounded-3xl h-[320px] sm:h-[400px] shadow-xl">
+
+
+    <img 
+        src="{{ asset('images/jalan.jpg') }}"
+        alt="Road Care"
+        class="absolute inset-0 w-full h-full object-cover"
+    >
+
+
+    <div class="absolute inset-0 bg-gradient-to-r 
+    from-blue-950/90 via-blue-800/70 to-transparent">
     </div>
 
-    {{-- Statistik Cards --}}
-    <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8">
-        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
-            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-blue-50 text-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-blue-100 flex-shrink-0">
-                📄
-            </div>
-            <div class="min-w-0">
-                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $totalBeranda ?? 0 }}</div>
-                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">TOTAL</div>
-            </div>
-        </div>
 
-        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
-            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-orange-50 text-orange-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-orange-100 flex-shrink-0">
-                💬
-            </div>
-            <div class="min-w-0">
-                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $prosesBeranda ?? 0 }}</div>
-                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">PROSES</div>
-            </div>
-        </div>
 
-        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
-            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-green-50 text-green-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-green-100 flex-shrink-0">
-                ✅
-            </div>
-            <div class="min-w-0">
-                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $selesaiBeranda ?? 0 }}</div>
-                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">SELESAI</div>
-            </div>
-        </div>
-    </div>
+    <div class="relative z-10 h-full flex items-center px-6 sm:px-10">
 
-    {{-- Laporan Terbaru --}}
-    <div class="mt-6 sm:mt-10 bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
 
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <h3 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Laporan Terbaru</h3>
+        <div class="max-w-xl text-white">
 
-            <a href="{{ route('laporan.create') }}" class="hidden sm:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/20 transition-all whitespace-nowrap active:scale-95">
-                ➕ Tambah Laporan
-            </a>
-        </div>
 
-        {{-- List Laporan dari Database --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
-            @forelse($laporansBeranda ?? [] as $laporan)
-            <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex gap-4 sm:gap-5 hover:border-blue-100 transition-colors shadow-sm relative">
-                <div class="w-20 h-20 sm:w-28 sm:h-28 bg-gray-100 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-inner">
-                    @if($laporan->foto)
-                        <img src="{{ asset('storage/' . $laporan->foto) }}"
-                             class="w-full h-full object-cover" alt="Foto laporan">
-                    @else
-                        <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">
-                            No Image
-                        </div>
-                    @endif
-                </div>
-                <div class="flex flex-col justify-between flex-grow min-w-0">
-                    <div>
-                        <div class="flex items-center justify-between gap-2">
-                            <h4 class="text-xs sm:text-sm font-extrabold text-gray-950 truncate tracking-tight">
-                                {{ $laporan->alamat ?? 'Alamat tidak tersedia' }}
-                            </h4>
-                            <span class="text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 sm:px-2.5 sm:py-1
-                                @if($laporan->status == 'selesai') bg-green-50 text-green-600
-                                @elseif($laporan->status == 'proses') bg-orange-50 text-orange-600
-                                @else bg-yellow-50 text-yellow-600
-                                @endif
-                                rounded-md whitespace-nowrap tracking-wider">
-                                {{ strtoupper($laporan->status) }}
-                            </span>
-                        </div>
-                        <p class="text-[11px] sm:text-xs font-semibold text-blue-600 mt-0.5 sm:mt-1 capitalize">
-                            {{ ucfirst($laporan->kategori) }}
-                        </p>
-                        <p class="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 sm:mt-1 leading-relaxed line-clamp-1">
-                            {{ $laporan->deskripsi ?? 'Tidak ada deskripsi' }}
-                        </p>
-                    </div>
-                    <div class="text-[10px] sm:text-[11px] font-semibold text-gray-400 mt-2 flex items-center gap-1.5 pt-1.5 sm:pt-2 border-t border-gray-50">
-                        🕒 {{ $laporan->created_at->diffForHumans() }}
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-span-2 text-center py-12 text-gray-400">
-                <p class="text-lg font-semibold">Belum ada laporan</p>
-                <p class="text-sm mt-2">Jadilah yang pertama melaporkan kerusakan jalan!</p>
-            </div>
-            @endforelse
-            </div>
+            <span class="inline-flex bg-white/20 backdrop-blur 
+            px-4 py-2 rounded-full text-xs font-bold">
 
-            {{-- Pagination --}}
-            @if($laporansBeranda->hasPages())
-            <div class="mt-8 flex justify-center">
-                {{ $laporansBeranda->links() }}
-            </div>
-            @endif
-        {{-- Kontribusi Banner --}}
-        <div class="mt-6 sm:mt-10 bg-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-xl shadow-blue-600/15 flex flex-col justify-center">
-            <h4 class="font-bold text-sm sm:text-base tracking-tight">Kontribusi Anda Pekan Ini</h4>
-            <p class="text-xs sm:text-sm text-blue-100 mt-1 sm:mt-1.5 opacity-90 leading-relaxed">
-                Total {{ $totalBeranda ?? 0 }} laporan telah dikirim melalui sistem RoadCare.
+                🚧 ROAD CARE SYSTEM
+
+            </span>
+
+
+
+            <h2 class="mt-5 text-3xl sm:text-5xl font-extrabold">
+
+                Halo, {{ Auth::user()->name }} 👋
+
+            </h2>
+
+
+
+            <p class="mt-4 text-sm sm:text-lg text-blue-100">
+
+                Pantau dan laporkan kondisi jalan
+                di sekitarmu.
+
             </p>
+
+
+            <p class="mt-2 text-sm sm:text-lg font-semibold">
+
+                Bersama menciptakan jalan yang lebih aman
+                dan nyaman.
+
+            </p>
+
+
+
+
+            <div class="mt-6 flex gap-3">
+
+
+                <a href="{{ route('laporan.create') }}"
+                class="bg-white text-blue-700 px-5 py-3 rounded-xl 
+                font-bold shadow-lg hover:scale-105 transition">
+
+                    ➕ Buat Laporan
+
+                </a>
+
+
+
+                <a href="{{ route('map') }}"
+                class="border border-white px-5 py-3 rounded-xl
+                text-white font-bold hover:bg-white 
+                hover:text-blue-700 transition">
+
+                    🗺 Peta
+
+                </a>
+
+
+            </div>
+
+
         </div>
 
+
     </div>
+
+
+
+
+    <div class="absolute bottom-5 right-5 hidden sm:block">
+
+
+        <div class="bg-white/90 backdrop-blur rounded-2xl 
+        px-5 py-3 shadow-lg">
+
+
+            <p class="font-bold text-gray-800">
+
+                ☀️ 28°C Cerah
+
+            </p>
+
+
+            <p class="text-xs text-gray-500">
+
+                📍 Pontianak, Kalimantan Barat
+
+            </p>
+
+
+        </div>
+
+
+    </div>
+
 
 </div>
+
+
+
+
+
+<!-- ================= STATISTIK ================= -->
+
+
+<div class="grid grid-cols-3 gap-2 sm:gap-5 mt-6 sm:mt-8">
+
+
+    <div class="bg-white rounded-3xl p-3 sm:p-6 shadow-sm 
+    border hover:-translate-y-1 hover:shadow-xl transition">
+
+
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+
+
+            <div class="bg-blue-100 rounded-2xl p-3 sm:p-4 text-2xl">
+                📄
+            </div>
+
+
+            <div class="text-center sm:text-left">
+
+
+                <h3 class="text-xl sm:text-4xl font-extrabold">
+                    {{ $totalBeranda ?? 0 }}
+                </h3>
+
+
+                <p class="text-[10px] sm:text-sm font-bold text-gray-400">
+                    TOTAL
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="bg-white rounded-3xl p-3 sm:p-6 shadow-sm 
+    border hover:-translate-y-1 hover:shadow-xl transition">
+
+
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+
+
+            <div class="bg-orange-100 rounded-2xl p-3 sm:p-4 text-2xl">
+                💬
+            </div>
+
+
+            <div class="text-center sm:text-left">
+
+
+                <h3 class="text-xl sm:text-4xl font-extrabold">
+                    {{ $prosesBeranda ?? 0 }}
+                </h3>
+
+
+                <p class="text-[10px] sm:text-sm font-bold text-gray-400">
+                    PROSES
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="bg-white rounded-3xl p-3 sm:p-6 shadow-sm 
+    border hover:-translate-y-1 hover:shadow-xl transition">
+
+
+        <div class="flex flex-col sm:flex-row items-center gap-3">
+
+
+            <div class="bg-green-100 rounded-2xl p-3 sm:p-4 text-2xl">
+                ✅
+            </div>
+
+
+            <div class="text-center sm:text-left">
+
+
+                <h3 class="text-xl sm:text-4xl font-extrabold">
+                    {{ $selesaiBeranda ?? 0 }}
+                </h3>
+
+
+                <p class="text-[10px] sm:text-sm font-bold text-gray-400">
+                    SELESAI
+                </p>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- ================= LAPORAN TERBARU ================= -->
+
+
+<div class="mt-8 bg-white rounded-3xl p-5 sm:p-8 shadow-sm border">
+
+
+<div class="flex justify-between items-center">
+
+
+<h3 class="text-xl sm:text-2xl font-extrabold">
+
+Laporan Terbaru
+
+</h3>
+
+
+
+<a href="{{ route('laporan.create') }}"
+class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold">
+
+➕ Tambah
+
+</a>
+
+
+</div>
+
+
+
+
+<div class="grid md:grid-cols-2 gap-5 mt-8">
+
+
+@forelse($laporansBeranda ?? [] as $laporan)
+
+
+<div class="rounded-3xl border p-4 flex gap-4 hover:shadow-lg transition">
+
+
+<div class="w-24 h-24 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
+
+
+@if($laporan->foto)
+
+<img src="{{ asset('storage/'.$laporan->foto) }}"
+class="w-full h-full object-cover">
+
+@else
+
+<div class="flex items-center justify-center h-full text-gray-400 text-xs">
+No Image
+</div>
+
+@endif
+
+
+</div>
+
+
+
+<div class="flex-1">
+
+
+<div class="flex justify-between gap-2">
+
+
+<h4 class="font-bold text-sm truncate">
+
+{{ $laporan->alamat ?? 'Alamat tidak tersedia' }}
+
+</h4>
+
+
+
+<span class="text-[10px] px-2 py-1 rounded-full font-bold
+
+@if($laporan->status=='selesai')
+bg-green-100 text-green-700
+
+@elseif($laporan->status=='proses')
+bg-orange-100 text-orange-700
+
+@else
+bg-yellow-100 text-yellow-700
+@endif
+">
+
+{{ strtoupper($laporan->status) }}
+
+</span>
+
+
+</div>
+
+
+
+<p class="text-blue-600 text-xs mt-1">
+
+{{ ucfirst($laporan->kategori) }}
+
+</p>
+
+
+
+<p class="text-xs text-gray-500 mt-2 line-clamp-2">
+
+{{ $laporan->deskripsi ?? 'Tidak ada deskripsi' }}
+
+</p>
+
+
+
+<p class="text-xs text-gray-400 mt-3">
+
+🕒 {{ $laporan->created_at->diffForHumans() }}
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+@empty
+
+
+<div class="col-span-2 text-center py-16 text-gray-400">
+
+
+<div class="text-6xl">
+📋
+</div>
+
+
+<p class="mt-4 font-bold">
+Belum ada laporan
+</p>
+
+
+<p class="text-sm">
+Jadilah yang pertama melaporkan jalan rusak.
+</p>
+
+
+</div>
+
+
+@endforelse
+
+
+</div>
+
+
+
+
+
+@if($laporansBeranda->hasPages())
+
+<div class="mt-8 flex justify-center">
+
+{{ $laporansBeranda->links() }}
+
+</div>
+
+@endif
+
+
+
+
+<!-- ================= KONTRIBUSI ================= -->
+
+
+<div class="mt-8 bg-blue-600 rounded-3xl p-6 text-white">
+
+
+<h4 class="font-bold text-lg">
+
+🌱 Kontribusi Anda Pekan Ini
+
+</h4>
+
+
+<p class="text-blue-100 mt-2">
+
+Total {{ $totalBeranda ?? 0 }} laporan telah dikirim melalui sistem RoadCare.
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
 @endsection
