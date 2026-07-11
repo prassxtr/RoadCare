@@ -88,15 +88,5 @@ Route::middleware('auth')->group(function () {
     // ==========================================
     // Manajemen Laporan Admin (CRUD Lengkap)
     // ==========================================
-<<<<<<< HEAD
-    // ✅ FIX 2: Gunakan ->only() agar tidak error mencari method create/edit/store yang tidak ada
-    Route::resource('laporan', AdminLaporanController::class)->only(['index', 'show', 'destroy']);
 
-    // ✅ FIX 3: Tambahkan route custom untuk updateStatus dan download
-    // (Route::resource TIDAK otomatis membuat route ini!)
-    Route::put('/laporan/{id}/status', [AdminLaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
-    Route::get('/laporan/{id}/download', [AdminLaporanController::class, 'download'])->name('laporan.download');
-=======
-    Route::resource('laporan', AdminLaporanController::class);
->>>>>>> origin/UI-Admin-dan-pengguna
 });
