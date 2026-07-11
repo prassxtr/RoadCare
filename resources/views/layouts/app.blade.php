@@ -56,9 +56,8 @@
                 <div class="flex items-center gap-4 border-l pl-4 border-gray-100">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-gray-200 text-gray-700 rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
-                            P
                         </div>
-                        <span class="hidden sm:inline text-xs font-bold text-gray-700">Prass</span>
+                        <span class="hidden sm:inline text-xs font-bold text-gray-700">{{ Auth::user()->name }}</span>
                     </div>
 
                     <form action="{{ route('logout') }}" method="POST" class="hidden sm:inline" onsubmit="return confirm('Apakah Anda yakin ingin keluar?')">

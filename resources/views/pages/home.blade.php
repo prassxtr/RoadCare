@@ -6,7 +6,7 @@
 <div class="px-4 sm:px-5 pb-28 max-w-7xl mx-auto">
 
     <div class="text-center mt-6 sm:mt-10">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Halo, Prass 👋</h2>
+       <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight"> Halo, {{ Auth::user()->name }} 👋</h2>
         <p class="text-xs sm:text-sm text-gray-500 mt-1.5">Pantau dan laporkan kondisi jalan di sekitarmu.</p>
     </div>
 

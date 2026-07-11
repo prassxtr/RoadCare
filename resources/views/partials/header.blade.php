@@ -21,7 +21,7 @@
 
     <!-- Welcome Text -->
     <div class="mt-5">
-        <h2 class="text-3xl font-bold text-gray-800">Halo, Prass 👋</h2>
+        <h2 class="text-3xl font-bold text-gray-800">Halo, {{ Auth::user()->name }}👋</h2>
         <p class="text-sm text-gray-500 mt-1">Pantau dan laporkan kondisi jalan di sekitarmu.</p>
     </div>
 </header>
