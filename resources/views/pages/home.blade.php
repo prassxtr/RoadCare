@@ -1,45 +1,117 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda')
+@section('title', 'Beranda - Road Care')
 
 @section('content')
-    <div class="py-6">
-        <!-- Header Sapaan -->
-        <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Halo, Prass 👋</h1>
-            <p class="text-gray-500 text-sm">Mari bantu perbaiki jalan di sekitarmu.</p>
-        </div>
+<div class="px-4 sm:px-5 pb-28 max-w-7xl mx-auto">
+    
+    <div class="text-center mt-6 sm:mt-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Halo, Prass 👋</h2>
+        <p class="text-xs sm:text-sm text-gray-500 mt-1.5">Pantau dan laporkan kondisi jalan di sekitarmu.</p>
+    </div>
 
-        <!-- Statistik Cards -->
-        <div class="grid grid-cols-3 gap-3 mb-8">
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-500 mb-1">Total</p>
-                <p class="text-xl font-bold text-gray-900">12</p>
+    {{-- Statistik Cards --}}
+    <div class="grid grid-cols-3 gap-2 sm:gap-4 mt-6 sm:mt-8">
+        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
+            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-blue-50 text-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-blue-100 flex-shrink-0">
+                📄
             </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-500 mb-1">Proses</p>
-                <p class="text-xl font-bold text-blue-600">4</p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-500 mb-1">Selesai</p>
-                <p class="text-xl font-bold text-green-600">8</p>
+            <div class="min-w-0">
+                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $totalBeranda ?? 0 }}</div>
+                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">TOTAL</div>
             </div>
         </div>
 
-        <!-- Laporan Terbaru -->
-        <h2 class="text-lg font-semibold text-gray-900 mb-4">Laporan Terbaru</h2>
-        <div class="space-y-3">
-            <!-- Contoh Card Laporan -->
-            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex gap-4">
-                <div class="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
-                    <img src="https://via.placeholder.com/150" class="w-full h-full object-cover" alt="Kerusakan">
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-medium text-gray-900 text-sm">Jalan Berlubang di Jl. Sudirman</h3>
-                    <p class="text-xs text-gray-500 mt-1">2 jam yang lalu • Lubang</p>
-                    <span class="inline-block mt-2 px-2 py-0.5 text-[10px] font-medium bg-yellow-100 text-yellow-800 rounded-full">Menunggu Verifikasi</span>
-                </div>
+        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
+            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-orange-50 text-orange-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-orange-100 flex-shrink-0">
+                💬
+            </div>
+            <div class="min-w-0">
+                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $prosesBeranda ?? 0 }}</div>
+                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">PROSES</div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-sm flex flex-col sm:flex-row items-center text-center sm:text-left gap-2 sm:gap-5 transition-all hover:shadow-md">
+            <div class="w-10 h-10 sm:w-14 sm:h-14 bg-green-50 text-green-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-2xl shadow-inner border border-green-100 flex-shrink-0">
+                ✅
+            </div>
+            <div class="min-w-0">
+                <div class="text-xl sm:text-3xl font-extrabold text-gray-900 leading-none">{{ $selesaiBeranda ?? 0 }}</div>
+                <div class="text-[9px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider sm:tracking-widest mt-1 truncate">SELESAI</div>
             </div>
         </div>
     </div>
+
+    {{-- Laporan Terbaru --}}
+    <div class="mt-6 sm:mt-10 bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-sm">
+        
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <h3 class="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight">Laporan Terbaru</h3>
+            
+            <a href="{{ route('laporan.create') }}" class="hidden sm:inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/20 transition-all whitespace-nowrap active:scale-95">
+                ➕ Tambah Laporan
+            </a>
+        </div>
+
+        {{-- List Laporan dari Database --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
+            @forelse($laporansBeranda ?? [] as $laporan)
+            <div class="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-5 flex gap-4 sm:gap-5 hover:border-blue-100 transition-colors shadow-sm relative">
+                <div class="w-20 h-20 sm:w-28 sm:h-28 bg-gray-100 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-inner">
+                    @if($laporan->foto)
+                        <img src="{{ asset('storage/' . $laporan->foto) }}" 
+                             class="w-full h-full object-cover" alt="Foto laporan">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                            No Image
+                        </div>
+                    @endif
+                </div>
+                <div class="flex flex-col justify-between flex-grow min-w-0">
+                    <div>
+                        <div class="flex items-center justify-between gap-2">
+                            <h4 class="text-xs sm:text-sm font-extrabold text-gray-950 truncate tracking-tight">
+                                {{ $laporan->alamat ?? 'Alamat tidak tersedia' }}
+                            </h4>
+                            <span class="text-[9px] sm:text-[10px] font-black uppercase px-2 py-0.5 sm:px-2.5 sm:py-1 
+                                @if($laporan->status == 'selesai') bg-green-50 text-green-600
+                                @elseif($laporan->status == 'proses') bg-orange-50 text-orange-600
+                                @else bg-yellow-50 text-yellow-600
+                                @endif
+                                rounded-md whitespace-nowrap tracking-wider">
+                                {{ strtoupper($laporan->status) }}
+                            </span>
+                        </div>
+                        <p class="text-[11px] sm:text-xs font-semibold text-blue-600 mt-0.5 sm:mt-1 capitalize">
+                            {{ ucfirst($laporan->kategori) }}
+                        </p>
+                        <p class="text-[10px] sm:text-[11px] text-gray-500 mt-0.5 sm:mt-1 leading-relaxed line-clamp-1">
+                            {{ $laporan->deskripsi ?? 'Tidak ada deskripsi' }}
+                        </p>
+                    </div>
+                    <div class="text-[10px] sm:text-[11px] font-semibold text-gray-400 mt-2 flex items-center gap-1.5 pt-1.5 sm:pt-2 border-t border-gray-50">
+                        🕒 {{ $laporan->created_at->diffForHumans() }}
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-span-2 text-center py-12 text-gray-400">
+                <p class="text-lg font-semibold">Belum ada laporan</p>
+                <p class="text-sm mt-2">Jadilah yang pertama melaporkan kerusakan jalan!</p>
+            </div>
+            @endforelse
+        </div>
+
+        {{-- Kontribusi Banner --}}
+        <div class="mt-6 sm:mt-10 bg-blue-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white shadow-xl shadow-blue-600/15 flex flex-col justify-center">
+            <h4 class="font-bold text-sm sm:text-base tracking-tight">Kontribusi Anda Pekan Ini</h4>
+            <p class="text-xs sm:text-sm text-blue-100 mt-1 sm:mt-1.5 opacity-90 leading-relaxed">
+                Total {{ $totalBeranda ?? 0 }} laporan telah dikirim melalui sistem RoadCare.
+            </p>
+        </div>
+
+    </div>
+
+</div>
 @endsection
