@@ -28,7 +28,7 @@
 
     <!-- Informasi Laporan & Foto -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+
         <!-- Informasi Laporan -->
         <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
             <h2 class="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
@@ -37,7 +37,7 @@
                 </svg>
                 Informasi Laporan
             </h2>
-            
+
             <div class="space-y-4">
                 <div class="flex items-start gap-3">
                     <span class="text-sm text-slate-500 min-w-[120px]">Kategori:</span>
@@ -110,21 +110,21 @@
                 </svg>
                 Foto Laporan
             </h2>
-            
+
             <div class="relative group">
-                <img src="{{ asset('storage/' . $laporan->foto) }}" alt="Foto Laporan" 
+                <img src="{{ asset('storage/' . $laporan->foto) }}" alt="Foto Laporan"
                      class="w-full h-64 object-cover rounded-lg border border-slate-200">
-                
+
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <a href="{{ asset('storage/' . $laporan->foto) }}" target="_blank" 
+                    <a href="{{ asset('storage/' . $laporan->foto) }}" target="_blank"
                        class="bg-white/90 text-slate-800 px-4 py-2 rounded-lg text-sm font-medium hover:bg-white transition">
                         🔍 Lihat Ukuran Penuh
                     </a>
                 </div>
             </div>
-            
+
             <div class="mt-4 flex gap-3">
-                <a href="{{ route('admin.laporan.download', $laporan->id) }}" 
+                <a href="{{ route('admin.laporan.download', $laporan->id) }}"
                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg transition text-sm font-medium shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
@@ -164,7 +164,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Status</label>
-                    <select name="status" required 
+                    <select name="status" required
                             class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
                         <option value="pending" {{ $laporan->status == 'pending' ? 'selected' : '' }}>⏳ Pending</option>
                         <option value="proses" {{ $laporan->status == 'proses' ? 'selected' : '' }}>🔧 Proses</option>
@@ -174,22 +174,22 @@
 
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-2">Ditangani Oleh</label>
-                    <input type="text" value="{{ $laporan->admin->name ?? 'Belum ditugaskan' }}" 
-                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-slate-50 text-sm" 
+                    <input type="text" value="{{ $laporan->admin->name ?? 'Belum ditugaskan' }}"
+                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg bg-slate-50 text-sm"
                            disabled>
                 </div>
             </div>
 
             <div class="mb-5">
                 <label class="block text-sm font-semibold text-slate-700 mb-2">Catatan Admin</label>
-                <textarea name="catatan_admin" rows="4" 
+                <textarea name="catatan_admin" rows="4"
                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                           placeholder="Tambahkan catatan untuk laporan ini...">{{ old('catatan_admin', $laporan->catatan_admin) }}</textarea>
                 <p class="text-xs text-slate-500 mt-1">Catatan ini akan terlihat oleh pelapor</p>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-slate-200">
-                <button type="submit" 
+                <button type="submit"
                         class="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg transition text-sm font-semibold shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -197,7 +197,7 @@
                     Simpan Perubahan
                 </button>
 
-                <button type="button" onclick="confirmDelete()" 
+                <button type="button" onclick="confirmDelete()"
                         class="inline-flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-6 py-2.5 rounded-lg transition text-sm font-semibold shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
