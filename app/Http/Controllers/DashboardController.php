@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+<<<<<<< HEAD
 use Illuminate\Http\Request;
+=======
+>>>>>>> origin/tampilan-admin
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $total = Laporan::count();
+<<<<<<< HEAD
 <<<<<<< HEAD
         $totalLaporan = Laporan::count();
         $totalPending = Laporan::where('status', 'pending')->count();
@@ -45,6 +49,8 @@ class DashboardController extends Controller
 
         return view('Admin.dashboard.map', compact('laporans'));
 =======
+=======
+>>>>>>> origin/tampilan-admin
 
         $jalan = Laporan::where('kategori','Jalan Rusak')->count();
 
@@ -52,13 +58,18 @@ class DashboardController extends Controller
 
         $longsor = Laporan::where('kategori','Tanah Longsor')->count();
 
+<<<<<<< HEAD
         return view('admin.dashboard.index', compact(
+=======
+        return view('dashboard.index', compact(
+>>>>>>> origin/tampilan-admin
             'total',
             'jalan',
             'banjir',
             'longsor'
         ));
     }
+<<<<<<< HEAD
 
     /**
      * Menampilkan halaman peta khusus admin.
@@ -72,4 +83,6 @@ class DashboardController extends Controller
         return view('admin.laporan.index', compact('laporan'));
 >>>>>>> origin/UI-Admin-dan-pengguna
     }
+=======
+>>>>>>> origin/tampilan-admin
 }
