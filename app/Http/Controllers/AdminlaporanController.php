@@ -36,7 +36,7 @@ class AdminLaporanController extends Controller
             });
         }
 
-        $laporans = $query->latest()->paginate(15)->withQueryString();
+        $laporans = $query->latest()->paginate(10)->withQueryString();
 
         // Statistik
         $totalLaporan = Laporan::count();
