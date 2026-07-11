@@ -70,12 +70,7 @@ Route::middleware('auth')->group(function () {
 // ==========================================
 // 3. ROUTE UNTUK ADMIN (Wajib Login + Prefix: /admin)
 // ==========================================
-<<<<<<< HEAD
-// ✅ FIX 1: Tambahkan middleware 'admin' agar user biasa tidak bisa masuk /admin
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-=======
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
->>>>>>> origin/UI-Admin-dan-pengguna
+
 
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
