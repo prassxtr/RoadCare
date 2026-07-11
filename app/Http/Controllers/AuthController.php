@@ -19,7 +19,7 @@ class AuthController extends Controller
         // KHUSUS LOGIN ADMIN (Menggunakan Password)
         // ==========================================
         if ($request->email === 'admin@roadcare.com') {
-            
+
             // Pastikan admin memasukkan password
             if (!$request->filled('password')) {
                 return back()->withErrors(['email' => 'Sila masukkan password untuk akaun Admin.']);
