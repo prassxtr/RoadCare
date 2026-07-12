@@ -8,3 +8,20 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+.admin-header {
+    min-height: 70px !important;
+    height: 70px !important;
+}
+
+.admin-header h2 {
+    font-size: 24px !important;
+}
+
+.admin-user {
+    font-size: 15px !important;
+}
+
+.avatar {
+    width: 37px !important;
+    height: 37px !important;
+}
