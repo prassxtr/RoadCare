@@ -1,13 +1,104 @@
-<header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 sticky top-0 z-10 shadow-sm">
-    <div class="flex items-center gap-4">
-        <h1 class="text-xl font-bold text-slate-800 tracking-tight">RoadCare Admin</h1>
+<header class="admin-header">
+
+    <div class="header-title">
+        <h2>RoadCare Admin</h2>
     </div>
-    <div class="flex items-center gap-4">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
-                {{ strtoupper(substr(Auth::user()->name ?? 'A', 0, 1)) }}
-            </div>
-            <span class="text-sm font-medium text-slate-700">{{ Auth::user()->name ?? 'Admin' }}</span>
+
+
+    <div class="admin-user">
+
+        <div class="avatar">
+            {{ strtoupper(substr(Auth::user()->name,0,1)) }}
         </div>
+
+
+        <span>
+            {{ Auth::user()->name }}
+        </span>
+
     </div>
+
 </header>
+
+
+<style>
+
+.admin-header {
+
+    height: 70px;
+
+    background: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+}
+
+
+
+.header-title h2 {
+
+    margin: 0;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+}
+
+
+
+.admin-user {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+}
+
+
+
+.avatar {
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: white;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-weight: bold;
+
+    font-size: 17px;
+
+}
+
+</style>
