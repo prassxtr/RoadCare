@@ -61,7 +61,7 @@
                                 </div>
                                 <div>
                                     <p class="font-semibold text-slate-900">{{ $user->name }}</p>
-                                    <p class="text-xs text-slate-400">Terdaftar: {{ $user->created_at->format('M Y') }}</p>
+                                    <p class="text-xs text-slate-400">Terdaftar: {{ $user->created_at?->format('M Y') ?? '-' }}</p>
                                 </div>
                             </div>
                         </td>
