@@ -1,54 +1,88 @@
-<header class="bg-white/80 backdrop-blur-md border-b border-slate-200 fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 z-30 transition-all">
-    
-    <!-- Sisi Kiri: Branding & Pencarian -->
-    <div class="flex items-center gap-8">
-        <div class="flex items-center gap-2.5">
-            <!-- Icon/Logo Geometris Kecil -->
-            <div class="p-2 bg-blue-600 rounded-xl text-white shadow-md shadow-blue-200">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.996 2.497c.317.158.69.158 1.006 0z" />
-                </svg>
-            </div>
-            <span class="text-xl font-bold bg-gradient-to-r from-slate-900 to-blue-900 bg-clip-text text-transparent tracking-tight">
-                RoadCare<span class="text-blue-600 font-medium text-sm ml-1 px-1.5 py-0.5 bg-blue-50 rounded-md border border-blue-100">Admin</span>
-            </span>
-        </div>
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
 
-        <!-- Tombol Search Cepat (Hanya muncul di desktop) -->
-        <div class="relative hidden md:block w-64">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.602 10.602z" />
-                </svg>
-            </span>
-            <input type="text" placeholder="Cari laporan..." class="w-full pl-9 pr-4 py-1.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white text-lg">R</div>
+                <span class="text-xl font-extrabold text-gray-800 tracking-tight">Road<span class="text-blue-600">Care</span></span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="{{ route('home') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('home') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Beranda</a>
+                <a href="{{ route('map') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('map') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Peta</a>
+                <a href="{{ route('laporan.index') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('laporan.*') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Laporan Saya</a>
+            </nav>
+
+            <!-- Right Side: User Profile -->
+            <div class="hidden md:flex items-center gap-4">
+                <!-- Notifikasi -->
+                <button class="relative p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                </button>
+
+                <!-- User Dropdown -->
+                <div class="relative" id="userDropdown">
+                    <button onclick="toggleUserMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded-full px-2 py-1.5 transition cursor-pointer border-l pl-4 border-gray-100">
+                        <div class="w-8 h-8 bg-blue-600 text-white rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
+                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                        </div>
+                        <span class="text-xs font-bold text-gray-700">{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="userMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50">
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+                        <div class="py-1">
+                            <a href="{{ route('profil') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                Profil Saya
+                            </a>
+                        </div>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 transition text-left">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Keluar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden w-10"></div>
         </div>
     </div>
-
-    <!-- Sisi Kanan: Notifikasi & Profil -->
-    <div class="flex items-center gap-4">
-        <!-- Tombol Notifikasi -->
-        <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all">
-            <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-        </button>
-
-        <!-- Garis Pembatas -->
-        <div class="h-6 w-px bg-slate-200"></div>
-
-        <!-- Profil Pengguna -->
-        <div class="flex items-center gap-3 cursor-pointer group">
-            <div class="hidden sm:block text-right">
-                <p class="text-sm font-semibold text-slate-800 group-hover:text-blue-600 transition-colors">Administrator</p>
-                <p class="text-xs text-slate-400">admin@roadcare.id</p>
-            </div>
-            <!-- Avatar Inisial (Bisa diganti tag <img> jika ada foto) -->
-            <div class="w-9 h-9 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-sm shadow-sm ring-2 ring-blue-100">
-                AD
-            </div>
-        </div>
-    </div>
-
 </header>
+
+<script>
+function toggleUserMenu() {
+    document.getElementById('userMenu').classList.toggle('hidden');
+}
+
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    const menu = document.getElementById('userMenu');
+    if (dropdown && !dropdown.contains(event.target)) {
+        menu.classList.add('hidden');
+    }
+});
+</script>

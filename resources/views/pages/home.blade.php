@@ -36,16 +36,10 @@
                 Bersama menciptakan jalan yang lebih aman dan nyaman.
             </p>
 
-            <div class="mt-6 flex gap-3 flex-wrap">
-                <a href="{{ route('laporan.create') }}"
-                   class="bg-white text-blue-700 px-5 py-3 rounded-xl font-bold shadow-lg hover:scale-105 transition transform">
-                    ➕ Buat Laporan
-                </a>
-
-                <a href="{{ route('map') }}"
-                   class="border-2 border-white px-5 py-3 rounded-xl text-white font-bold hover:bg-white hover:text-blue-700 transition">
-                    🗺 Peta
-                </a>
+            <!-- BAGIAN YANG DIPERBAIKI: Mengganti tombol redundan dengan info teks minimalis bergaya badge -->
+            <div class="mt-6 flex items-center gap-2 text-xs sm:text-sm text-blue-200">
+                <span class="flex h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                Gunakan menu di atas atau tombol di bawah untuk mulai mengelola laporan Anda.
             </div>
         </div>
     </div>
@@ -132,9 +126,9 @@
             <div class="w-28 h-28 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0 border border-gray-200">
                 @if($laporan->foto)
                     <img src="{{ Storage::url($laporan->foto) }}"
-                         alt="{{ $laporan->kategori ?? 'Laporan' }}"
-                         class="w-full h-full object-cover"
-                         onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        alt="{{ $laporan->kategori ?? 'Laporan' }}"
+                        class="w-full h-full object-cover"
+                        onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                 @else
                     <div class="flex items-center justify-center h-full text-gray-400">
                         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">

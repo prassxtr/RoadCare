@@ -1,56 +1,68 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="id" class="h-full">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>{{ $title ?? 'RoadCare Admin' }}</title>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
 
-<body class="h-full bg-slate-50 text-slate-800 antialiased flex flex-col">
+<body class="h-full bg-slate-50 text-slate-800 antialiased">
 
-    {{-- Header Admin --}}
+    {{-- Header Admin (Fixed) --}}
     @include('Admin.layout.header')
 
     {{-- Main Wrapper --}}
-    <div class="flex flex-1 relative">
+    <div class="flex flex-1 relative pt-16"> {{-- pt-16 agar konten tidak tertutup header fixed --}}
 
         {{-- Sidebar Admin --}}
-        <aside class="w-64 fixed inset-y-0 left-0 pt-16 bg-white border-r border-slate-200 hidden md:block z-20">
-            @include('Admin.layout.sidebar')
-        </aside>
+        @include('Admin.layout.sidebar')
 
         {{-- Content Area --}}
-        <div class="flex flex-col flex-1 md:pl-64 min-h-screen">
+        <div class="flex flex-col flex-1 md:pl-64 min-h-screen transition-all duration-300">
 
-            <main class="flex-1 p-6 lg:p-8 bg-slate-50">
+            <main class="flex-1 p-4 md:p-6 lg:p-8">
                 @if(View::hasSection('page-header'))
-                <div class="mb-6">
-                    @yield('page-header')
-                </div>
+                    <div class="mb-6">
+                        @yield('page-header')
+                    </div>
                 @endif
 
                 @yield('content')
             </main>
 
             {{-- Footer Admin --}}
-            <footer class="bg-white border-t border-slate-200 py-4 px-6 text-center text-sm text-slate-500">
-                &copy; {{ date('Y') }} RoadCare Admin. All rights reserved.
-            </footer>
+            @include('Admin.layout.footer')
 
         </div>
     </div>
+
+    {{-- Script untuk Toggle Sidebar Mobile --}}
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            // Toggle class untuk animasi slide
+            sidebar.classList.toggle('-translate-x-full');
+
+            // Toggle overlay gelap di belakang sidebar
+            if (overlay.classList.contains('hidden')) {
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+    </script>
 
 </body>
 </html>
