@@ -23,28 +23,20 @@
     <nav class="sticky top-0 z-[4000] bg-white/80 backdrop-blur-md border-b border-gray-100 px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             
+            <!-- Logo -->
             <div class="flex items-center gap-2">
                 <div class="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center font-black text-white text-lg">R</div>
                 <span class="text-xl font-extrabold text-gray-800 tracking-tight">Road<span class="text-blue-600">Care</span></span>
             </div>
 
+            <!-- Menu Desktop -->
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ route('home') }}" 
-                   class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('home') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">
-                    Beranda
-                </a>
-
-                <a href="{{ route('map') }}" 
-                   class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('map') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">
-                    Peta
-                </a>
-
-                <a href="{{ route('laporan.index') }}" 
-                   class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('laporan.*') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">
-                    Laporan Saya
-                </a>
+                <a href="{{ route('home') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('home') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Beranda</a>
+                <a href="{{ route('map') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('map') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Peta</a>
+                <a href="{{ route('laporan.index') }}" class="text-sm font-bold transition-colors duration-200 {{ request()->routeIs('laporan.*') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600' }}">Laporan Saya</a>
             </div>
 
+            <!-- Right Side: Notifikasi + Profil Dropdown -->
             <div class="flex items-center gap-4">
                 <button class="relative p-1.5 text-gray-400 hover:text-gray-600 transition-colors">
                     <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
@@ -53,22 +45,59 @@
                     </svg>
                 </button>
                 
-                <div class="flex items-center gap-4 border-l pl-4 border-gray-100">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 bg-gray-200 text-gray-700 rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
+                <!-- ✅ PERBAIKAN: Dropdown Profil yang Bisa Diklik di Desktop -->
+                <div class="relative" id="profileDropdown">
+                    <button onclick="toggleProfileMenu()" class="flex items-center gap-2 hover:bg-gray-100 rounded-full px-2 py-1.5 transition cursor-pointer border-l pl-4 border-gray-100">
+                        <!-- Avatar dengan Inisial Nama -->
+                        <div class="w-8 h-8 bg-blue-600 text-white rounded-full font-bold text-sm flex items-center justify-center shadow-sm">
+                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
                         </div>
                         <span class="hidden sm:inline text-xs font-bold text-gray-700">{{ Auth::user()->name }}</span>
+                        <svg class="w-4 h-4 text-gray-500 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+
+                    <!-- Menu Dropdown (Muncul saat diklik) -->
+                    <div id="profileMenu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-[6000]">
+                        <!-- Header Profil -->
+                        <div class="px-4 py-3 border-b border-gray-100">
+                            <p class="text-sm font-bold text-gray-900 truncate">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500 truncate">{{ Auth::user()->email }}</p>
+                        </div>
+
+                        <!-- Menu Items -->
+                        <div class="py-1">
+                            <a href="{{ route('profil') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                Profil Saya
+                            </a>
+                            <a href="{{ route('laporan.index') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                Laporan Saya
+                            </a>
+                        </div>
+
+                        <!-- Divider & Logout -->
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar?')">
+                            @csrf
+                            <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 transition text-left">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                </svg>
+                                Keluar
+                            </button>
+                        </form>
                     </div>
-
-                    <form action="{{ route('logout') }}" method="POST" class="hidden sm:inline" onsubmit="return confirm('Apakah Anda yakin ingin keluar?')">
-                        @csrf
-                        <button type="submit" class="bg-rose-50 hover:bg-rose-100 text-rose-600 font-semibold px-3 py-1.5 rounded-lg text-xs transition border-0 cursor-pointer shadow-sm">
-                            Keluar
-                        </button>
-                    </form>
                 </div>
-            </div>
+                <!-- ✅ AKHIR PERBAIKAN -->
 
+            </div>
         </div>
     </nav>
 
@@ -76,7 +105,7 @@
         @yield('content')
     </main>
     
-
+    <!-- Bottom Navigation (Mobile Only) -->
     <div class="fixed bottom-0 left-0 right-0 z-[5000] bg-white/95 backdrop-blur-md border-t border-gray-100 md:hidden px-2 py-2 shadow-[0_-4px_25px_rgba(0,0,0,0.05)]">
         <div class="flex justify-around items-center relative">
             
@@ -127,6 +156,24 @@
 
         </div>
     </div>
+
+    <!-- ✅ SCRIPT UNTUK TOGGLE DROPDOWN PROFIL -->
+    <script>
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Tutup dropdown otomatis jika user klik di luar area dropdown
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const menu = document.getElementById('profileMenu');
+            
+            if (dropdown && !dropdown.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
 
     @yield('scripts')
 </body>
