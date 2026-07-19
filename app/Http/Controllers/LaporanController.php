@@ -20,21 +20,21 @@ class LaporanController extends Controller
     }
 
     // Beranda User
-    public function home()
-    {
-        $laporansBeranda = Laporan::latest()->paginate(4);
+public function home()
+{
+    $laporansBeranda = Laporan::latest()->paginate(10);
 
-        $totalBeranda = Laporan::count();
-        $prosesBeranda = Laporan::where('status', 'proses')->count();
-        $selesaiBeranda = Laporan::where('status', 'selesai')->count();
+    $totalBeranda = Laporan::count();
+    $prosesBeranda = Laporan::where('status', 'Sedang Diproses')->count();
+    $selesaiBeranda = Laporan::where('status', 'Selesai Ditangani')->count();
 
-        return view('pages.home', compact(
-            'laporansBeranda',
-            'totalBeranda',
-            'prosesBeranda',
-            'selesaiBeranda'
-        ));
-    }
+    return view('pages.home', compact(
+        'laporansBeranda',
+        'totalBeranda',
+        'prosesBeranda',
+        'selesaiBeranda'
+    ));
+}
 
     // List Halaman Laporan Saya (User)
     public function index()

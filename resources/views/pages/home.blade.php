@@ -52,58 +52,81 @@
     </div>
 </div>
 
-<!-- ================= STATISTIK ================= -->
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mt-6 sm:mt-8">
-    <!-- Total -->
-    <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border hover:-translate-y-1 hover:shadow-xl transition duration-300">
-        <div class="flex items-center gap-4">
-            <div class="bg-blue-100 rounded-2xl p-4 text-3xl flex-shrink-0">
+<!-- ================= STATISTIK (DESIGN IMPROVED) ================= -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
 
+    <!-- Total Laporan -->
+    <div class="relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+        <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <span class="text-4xl font-black text-gray-800">{{ $totalBeranda ?? 0 }}</span>
             </div>
-            <div>
-                <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-800">
-                    {{ $totalBeranda ?? 0 }}
-                </h3>
-                <p class="text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wide">
-                    Total Laporan
-                </p>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Total Laporan</h3>
+            <div class="mt-3 flex items-center text-xs text-blue-600 font-semibold">
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    Semua waktu
+                </span>
             </div>
         </div>
     </div>
 
-    <!-- Proses -->
-    <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border hover:-translate-y-1 hover:shadow-xl transition duration-300">
-        <div class="flex items-center gap-4">
-            <div class="bg-orange-100 rounded-2xl p-4 text-3xl flex-shrink-0">
-                💬
+    <!-- Dalam Proses -->
+    <div class="relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-400/20 to-orange-600/20 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+        <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-4xl font-black text-gray-800">{{ $prosesBeranda ?? 0 }}</span>
             </div>
-            <div>
-                <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-800">
-                    {{ $prosesBeranda ?? 0 }}
-                </h3>
-                <p class="text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wide">
-                    Dalam Proses
-                </p>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Dalam Proses</h3>
+            <div class="mt-3 flex items-center text-xs text-amber-600 font-semibold">
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Sedang dikerjakan
+                </span>
             </div>
         </div>
     </div>
 
     <!-- Selesai -->
-    <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border hover:-translate-y-1 hover:shadow-xl transition duration-300">
-        <div class="flex items-center gap-4">
-            <div class="bg-green-100 rounded-2xl p-4 text-3xl flex-shrink-0">
-                ✅
+    <div class="relative overflow-hidden bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-400/20 to-green-600/20 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+        <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-14 h-14 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center shadow-lg shadow-green-500/30">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <span class="text-4xl font-black text-gray-800">{{ $selesaiBeranda ?? 0 }}</span>
             </div>
-            <div>
-                <h3 class="text-3xl sm:text-4xl font-extrabold text-gray-800">
-                    {{ $selesaiBeranda ?? 0 }}
-                </h3>
-                <p class="text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wide">
-                    Selesai
-                </p>
+            <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider">Selesai</h3>
+            <div class="mt-3 flex items-center text-xs text-emerald-600 font-semibold">
+                <span class="flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    Berhasil ditangani
+                </span>
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- ================= LAPORAN TERBARU ================= -->
