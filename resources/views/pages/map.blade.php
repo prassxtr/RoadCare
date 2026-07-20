@@ -53,18 +53,22 @@
         </div>
 
         <!-- Filter Buttons -->
+<!-- Filter Buttons -->
         <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            <button onclick="filterMarkers('semua')" data-filter="semua" class="filter-btn px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-bold whitespace-nowrap transition-all shadow-md shadow-blue-600/20">
-                Semua
+            <button onclick="filterMarkers('semua')" data-filter="semua" class="filter-btn px-4 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold whitespace-nowrap transition-all shadow-md shadow-blue-600/20">
+                Semua Kategori
             </button>
-            <button onclick="filterMarkers('lubang')" data-filter="lubang" class="filter-btn px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-bold whitespace-nowrap transition-all hover:bg-gray-50">
-                🕳️ Lubang
+            <button onclick="filterMarkers('lubang_jalan')" data-filter="lubang_jalan" class="filter-btn px-4 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-all">
+                ️ Lubang Jalan
             </button>
-            <button onclick="filterMarkers('retak')" data-filter="retak" class="filter-btn px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-bold whitespace-nowrap transition-all hover:bg-gray-50">
-                💥 Retak/Rusak
+            <button onclick="filterMarkers('retak_jalan')" data-filter="retak_jalan" class="filter-btn px-4 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-all">
+                💥 Retak Jalan
             </button>
-            <button onclick="filterMarkers('banjir')" data-filter="banjir" class="filter-btn px-4 py-2 bg-white text-gray-600 border border-gray-200 rounded-full text-sm font-bold whitespace-nowrap transition-all hover:bg-gray-50">
-                🌊 Banjir
+            <button onclick="filterMarkers('banjir')" data-filter="banjir" class="filter-btn px-4 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-all">
+                🌊 Banjir/Genangan
+            </button>
+            <button onclick="filterMarkers('lainnya')" data-filter="lainnya" class="filter-btn px-4 py-2.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-sm font-bold whitespace-nowrap hover:bg-gray-50 transition-all">
+                Lainnya
             </button>
         </div>
     </div>
@@ -121,29 +125,38 @@
 </div>
 
 <script>
-    let map;
-    let markersLayer;
     let markersByCategory = {
-        'semua': [],
-        'lubang': [],
-        'retak': [],
-        'banjir': [],
-        'lainnya': []
-    };
-    let searchMarker = null;
+    'semua': [],
+    'lubang_jalan': [],
+    'retak_jalan': [],
+    'banjir': [],
+    'lainnya': []
+};
 
-    // 1. Fungsi menormalisasi kategori agar filter tidak "ngawur"
-    function getFilterCategory(kategori) {
-        if (!kategori) return 'lainnya';
-        const k = kategori.toLowerCase();
+// Fungsi mencocokkan kategori database dengan tombol filter
+function getFilterCategory(kategori) {
+    if (!kategori) return 'lainnya';
 
-        if (k.includes('lubang')) return 'lubang';
-        if (k.includes('retak') || k.includes('rusak')) return 'retak';
-        if (k.includes('banjir') || k.includes('genang') || k.includes('air')) return 'banjir';
+    const k = kategori.toLowerCase();
 
-        return 'lainnya';
+    // 1. Lubang Jalan
+    if (k.includes('lubang')) {
+        return 'lubang_jalan';
     }
 
+    // 2. Retak Jalan / Jalan Rusak
+    if (k.includes('retak') || k.includes('rusak')) {
+        return 'retak_jalan';
+    }
+
+    // 3. Banjir / Genangan
+    if (k.includes('banjir') || k.includes('genangan') || k.includes('genang')) {
+        return 'banjir';
+    }
+
+    // 4. Lainnya (Longsor, dll)
+    return 'lainnya';
+}
     // 2. Fungsi membuat Icon Pin Lokasi yang Proper (bukan lingkaran kosong)
     function getCustomIcon(status) {
         let color = '#ef4444'; // Merah (Laporan Baru)
